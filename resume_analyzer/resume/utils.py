@@ -15,8 +15,11 @@ nlp = spacy.load('en_core_web_sm')
 
 
 
-def save_analysis_to_mongo(data):
+def save_analysis_to_mongo(data, user_email):
+    # Добавляем email пользователя в данные, чтобы сохранять его вместе с анализом
+    data['user_email'] = user_email
     collection.insert_one(data)
+
 
 
 def extract_text_from_pdf(pdf_file):
@@ -81,3 +84,17 @@ def extract_experience_from_text(text):
     
     return ' '.join(experience) 
 
+
+
+
+
+
+def get_resume_analysis_for_user(user_email):
+    analysis = collection.find_one({"user_email": user_email})
+
+    if analysis:
+        return {
+            'skills': analysis.get('skills', []),
+            'experience_summary': analysis.get('experience_summary', '')
+        }
+    return {}

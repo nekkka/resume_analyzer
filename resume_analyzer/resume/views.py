@@ -30,7 +30,7 @@ class ResumeUploadView(APIView):
 
             analysis_data = analyze_resume_text(text)
             analysis_data_str = json.dumps(analysis_data, default=str)
-            save_analysis_to_mongo(analysis_data)
+            save_analysis_to_mongo(analysis_data, request.user.email)
             ResumeAnalysis.objects.create(resume=resume, analysis_data=analysis_data_str)
 
 
