@@ -1,5 +1,7 @@
 
 from pathlib import Path
+import pymongo
+
 AUTH_USER_MODEL = 'users.User'
 
 
@@ -75,11 +77,17 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-DATABASES['mongodb'] = {
+
+"""DATABASES['mongodb'] = {
     'ENGINE': 'djongo',
     'NAME': 'resume',
-}
+}"""
 
+MONGO_URI = 'mongodb://localhost:27017/'
+MONGO_DB_NAME = 'resume_analyzer'
+
+client = pymongo.MongoClient(MONGO_URI)
+db = client["resume_analyzer"]
 
 DATABASES['mysql'] = {
     'ENGINE': 'django.db.backends.mysql',
